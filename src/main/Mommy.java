@@ -13,10 +13,6 @@ public class Mommy {
         if (s.isEmpty())
             return "";
 
-        Pattern p = Pattern.compile("(a)b");
-        Matcher matcher = p.matcher("ababa");
-        System.out.println(matcher.groupCount());
-
         float vowels = 0;
         for (char c : s.toCharArray()) {
             if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') {
