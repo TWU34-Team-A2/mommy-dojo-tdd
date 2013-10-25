@@ -1,3 +1,4 @@
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -13,13 +14,19 @@ public class MommifierTest
 {
 
     private final String MOMMY = "mommy";
+    private Mommifier mommifier;
+
+    @Before
+    public void setup()
+    {
+        mommifier = new Mommifier();
+    }
 
     @Test
     public void shouldNotChangeTheEmptyString()
     {
         String emptyString = "";
 
-        Mommifier mommifier = new Mommifier();
         assertEquals(emptyString, mommifier.mommify(emptyString));
     }
 
@@ -28,7 +35,6 @@ public class MommifierTest
     {
         String vowel = "a";
 
-        Mommifier mommifier = new Mommifier();
         assertEquals(MOMMY, mommifier.mommify(vowel));
     }
 
@@ -37,7 +43,6 @@ public class MommifierTest
     {
         String word = "aaa";
 
-        Mommifier mommifier = new Mommifier();
         assertEquals(MOMMY, mommifier.mommify(word));
     }
 
@@ -46,7 +51,6 @@ public class MommifierTest
     {
         String word = "ahhh";
 
-        Mommifier mommifier = new Mommifier();
         assertEquals(word, mommifier.mommify(word));
     }
 
@@ -55,8 +59,14 @@ public class MommifierTest
     {
         String word = "aba";
 
-        Mommifier mommifier = new Mommifier();
-        assertEquals();
+        assertEquals(MOMMY + "b" + MOMMY, mommifier.mommify(word));
+    }
 
+    @Test
+    public void shouldChange_aeiou_To_mommy()
+    {
+        String word = "aeiou";
+
+        assertEquals(MOMMY, mommifier.mommify(word));
     }
 }
