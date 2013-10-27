@@ -49,9 +49,4 @@ public class MommifiedTest {
         String momified = mommy.mommify("heare");
         assertEquals(momified, "hmommyrmommy");
     }
-
-
-
-
-
 }

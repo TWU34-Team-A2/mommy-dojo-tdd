@@ -9,26 +9,36 @@ import java.util.regex.Pattern;
  * To change this template use File | Settings | File Templates.
  */
 public class Mommy {
+
+    private final String MOMMY = "mommy";
+    private final String VOWELS = "aeiou";
+    private final float THIRTY_PERCENT = 0.3f;
+
     public String mommify(String s) {
         if (s.isEmpty())
             return "";
 
-        Pattern p = Pattern.compile("(a)b");
-        Matcher matcher = p.matcher("ababa");
-        System.out.println(matcher.groupCount());
+        float vowels = countVowels(s);
 
+        if (vowels / s.length() < THIRTY_PERCENT) {
+            return s;
+        } else {
+            return s.replaceAll("["+VOWELS+"]+", MOMMY);
+        }
+    }
+
+    private float countVowels(String s) {
         float vowels = 0;
         for (char c : s.toCharArray()) {
-            if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') {
+            if (isVowel(c)) {
                 vowels++;
             }
         }
+        return vowels;
+    }
 
-        if (vowels / s.length() < 30f / 100f) {
-            return s;
-        }         else {
-            return s.replaceAll("[aeiou]+", "mommy");
-        }
+    private boolean isVowel(char c) {
+        return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u';
     }
 
 
