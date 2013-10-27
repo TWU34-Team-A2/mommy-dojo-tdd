@@ -10,40 +10,21 @@ import java.util.regex.Pattern;
  */
 public class Mommifier {
 
-    private  String vowels = "aeiou";
-    public String mommify(String inputString) {
+    private String inputString;
+    private VowelReplacer vowelReplacer;
 
-            if(inputString.equals("") || calculatePercentVowels(inputString) <= 30){
+    public Mommifier(String inputString, VowelReplacer vowelReplacer) {
+        this.inputString = inputString;
+        this.vowelReplacer = vowelReplacer;
+    }
+
+    public String mommify() {
+
+            if(inputString.equals("") || vowelReplacer.calculatePercentVowels() <= 30){
                 return inputString;
             }
 
-
-
-            return replaceVowels(inputString);
-    }
-
-    private int calculatePercentVowels(String inputString)
-    {
-        String[] letters = inputString.split("(?!^)");
-        int count = 0;
-        for(String letter : letters)
-        {
-            if(vowels.contains(letter))
-                count++;
-        }
-
-        int percent = count * 100 / letters.length;
-        return percent ;
-    }
-
-    private String replaceVowels(String inputString)
-    {
-        String targetString = "mommy";
-
-        Pattern pattern = Pattern.compile("[" + vowels + "]+");
-        Matcher matcher = pattern.matcher(inputString);
-        return matcher.replaceAll(targetString);
-
+            return vowelReplacer.replaceVowels();
     }
 
 

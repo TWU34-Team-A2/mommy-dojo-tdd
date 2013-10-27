@@ -2,6 +2,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,51 +13,46 @@ import static org.junit.Assert.assertEquals;
  */
 public class MommifierTest {
 
-    private Mommifier mommifier;
+    VowelReplacer vowelReplacer;
 
     @Before
-    public void setup() {
-        mommifier = new Mommifier();
+    public void setUp() {
+        vowelReplacer = mock(VowelReplacer.class);
     }
 
     @Test
-    public void shouldNotMommifyEmptyString() {
-        mommifier = new Mommifier();
-        String mommified = mommifier.mommify("");
-        assertEquals("", mommified);
+    public void shouldNotCallVowelReplacerOnEmptyString() {
+        Mommifier mommifier = new Mommifier("", vowelReplacer);
+        mommifier.mommify();
+        verifyNoMoreInteractions(vowelReplacer);
     }
 
     @Test
-    public void shouldNotMommifyStringWithNoVowels()
+    public void shouldNotReplaceStringWithLessThanOrEqualTo30PercentVowels()
     {
-        String mommified = mommifier.mommify("hmm");
-        assertEquals("hmm", mommified);
+        Mommifier mommifier = new Mommifier("hefdsb", vowelReplacer);
+        when(vowelReplacer.calculatePercentVowels()).thenReturn(20);
+        verify(vowelReplacer, never()).replaceVowels();
+
+        mommifier = new Mommifier("hearingwww", vowelReplacer);
+        when(vowelReplacer.calculatePercentVowels()).thenReturn(30);
+        verify(vowelReplacer, never()).replaceVowels();
     }
 
     @Test
-    public void shouldNotMommifyStringWithLessThanOrEqualTo30PercentVowels()
-    {
-
-        String mommified = mommifier.mommify("hefdsb");
-        assertEquals("hefdsb",mommified);
-
-        mommified = mommifier.mommify("hearingwww");
-        assertEquals("hearingwww", mommified);
+    public void shouldCallReplaceVowelMethodWhenMoreThan30PercentVowels(){
+        Mommifier mommifier = new Mommifier("here", vowelReplacer);
+        when(vowelReplacer.calculatePercentVowels()).thenReturn(50);
+        mommifier.mommify();
+        verify(vowelReplacer).replaceVowels();
     }
 
     @Test
-    public void shouldMommifyStringWithGreaterThan30PercentVowels()
-    {
-        String mommified = mommifier.mommify("here");
-        assertEquals("hmommyrmommy",mommified);
+    public void shouldCallCalculateVowelMethodWhenNonEmptyString() {
 
+        Mommifier mommifier = new Mommifier("hear", vowelReplacer);
+        mommifier.mommify();
+        verify(vowelReplacer).calculatePercentVowels();
     }
-
-    @Test
-    public void shouldNotInsertMultipleMommiesWhenContiguousVowels() {
-        String mommified = mommifier.mommify("hear");
-        assertEquals("hmommyr", mommified);
-    }
-
 
 }
