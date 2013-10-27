@@ -32,10 +32,12 @@ public class MommifierTest {
     {
         Mommifier mommifier = new Mommifier("hefdsb", vowelReplacer);
         when(vowelReplacer.calculatePercentVowels()).thenReturn(20);
+        mommifier.mommify();
         verify(vowelReplacer, never()).replaceVowels();
 
         mommifier = new Mommifier("hearingwww", vowelReplacer);
         when(vowelReplacer.calculatePercentVowels()).thenReturn(30);
+        mommifier.mommify();
         verify(vowelReplacer, never()).replaceVowels();
     }
 
