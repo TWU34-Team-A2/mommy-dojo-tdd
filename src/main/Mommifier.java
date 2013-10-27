@@ -11,41 +11,18 @@ import com.sun.xml.internal.xsom.impl.scd.Iterators;
  */
 public class Mommifier {
 
+    private VowelCalculations vowelCalculations = new VowelCalculations();
+
     public String mommify(String input) {
-        if(input.equals("")) {
-            return "";
-        }
-
-        if(doesVowelCountExceed30Percent(input)) {
+        if(shouldPhraseBeMommified(input))
             return "" + input.replaceAll("[aeiou]+", "mommy");
-        }
-
-        return input;
+        else
+            return input;
     }
 
-
-    private boolean doesVowelCountExceed30Percent(String input) {
-        int numberOfVowels = findNumberOfVowels(input);
-        int lengthOfInput = input.length();
-        return numberOfVowels>lengthOfInput*.30;
-    }
-
-    private int findNumberOfVowels(String input) {
-        int count = 0;
-        for(int i = 0; i < input.length(); i++) {
-            if(isVowel(input.charAt(i))) {
-                count++;
-            }
-        }
-        return count;
-    }
-
-    private boolean isVowel(char character) {
-        char[] listOfVowels = new char[] {'a', 'e', 'i', 'o', 'u'};
-        for (int i = 0; i < listOfVowels.length; i++) {
-            if (character == listOfVowels[i])
-                return true;
-        }
+    private boolean shouldPhraseBeMommified(String input) {
+        if (vowelCalculations.doesVowelCountExceed30Percent(input) || input.equals(""))
+            return true;
         return false;
     }
 
